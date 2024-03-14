@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unix Time Converter</title>
+    <style>
+        .converter-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter-box">
+        <h1>Convert Time to Unix Timestamp</h1>
+        <p>Enter a date and time:</p>
+        <input type="date" id="inputDate">
+        <input type="time" id="inputTime">
+        <button onclick="convertToUnixTimestamp()">Convert</button>
+        <p>Unix Date: <span id="outputDate"></span></p>
+        <p>Unix Time: <span id="outputTime"></span></p>
+        <p>Unix Timestamp: <span id="outputTimestamp"></span> <button onclick="copyToClipboard()">Copy</button></p>
+    </div>
+
+    <script>
+        function convertToUnixTimestamp() {
+            const inputDate = new Date(document.getElementById("inputDate").value + "T" + document.getElementById("inputTime").value);
+            const unixTimestamp = Math.floor(inputDate.getTime() / 1000); // Convert milliseconds to seconds
+            const formattedDate = `<t:${unixTimestamp}:D>`;
+            const formattedTime = `<t:${unixTimestamp}:T>`;
+            const formattedTimestamp = `<t:${unixTimestamp}:R>`;
+            document.getElementById("outputDate").textContent = formattedDate;
+            document.getElementById("outputTime").textContent = formattedTime;
+            document.getElementById("outputTimestamp").textContent = formattedTimestamp;
+        }
+
+        function copyToClipboard() {
+            const formattedTimestamp = document.getElementById("outputTimestamp").textContent;
+            const tempInput = document.createElement("input");
+            document.body.appendChild(tempInput);
+            tempInput.value = formattedTimestamp;
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("Unix timestamp copied to clipboard: " + formattedTimestamp);
+        }
+    </script>
+</body>
+</html>
